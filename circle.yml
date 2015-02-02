@@ -6,7 +6,7 @@ dependencies:
 
 test:
   override:
-    - true
+    - /bin/true
 
 deployment:
   release:
