@@ -24,7 +24,7 @@ deps-check() {
 
 deps-install() {
 	declare name="$1" version="${2:-latest}"
-	local tag index tmpfile dep filename extension install
+	local tag index tmpdir tmpfile dep filename extension install
 	mkdir -p "$(deps-dir)/bin"
 	index=$(curl -s "$DEPS_REPO/$name")
 	tag="$(uname -s)$(uname -m | grep -s 64 > /dev/null && echo amd64 || echo 386)"
@@ -33,13 +33,15 @@ deps-install() {
 		exit 2
 	fi
 	IFS=' ' read v t url checksum <<< "$dep"
-	tmpfile="/tmp/$name" # TODO: real temp file
+	tmpdir="$(deps-dir)/tmp"
+	mkdir -p "$tmpdir"
+	tmpfile="${tmpdir:?}/$name"
 	curl -s $url > "$tmpfile"
 	if ! [[ "$(cat "$tmpfile" | md5)" = "$checksum" ]]; then
 		echo "!! Dependency checksum failed: $name $version $checksum"
 		exit 2
 	fi
-	cd /tmp # TODO: cd to real tempfile dir
+	cd "$tmpdir"
 	filename="$(basename "$url")"
 	extension="${filename##*.}"
 	case "$extension" in
@@ -52,10 +54,10 @@ deps-install() {
 		export PREFIX="$(deps-dir)"
 		eval "$script" > /dev/null
 		unset PREFIX
-		rm -rf "$tmpfile"
 	else
 		mv "$tmpfile" "$(deps-dir)/bin"
 	fi
 	cd - > /dev/null
+	rm -rf "${tmpdir:?}"
 	deps-check "$name" "$version"
 }

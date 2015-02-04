@@ -4,7 +4,11 @@ declare GUN_ROOT
 
 gun-init() {
 	mkdir .gun
-	# TODO: add to .gitignore if exists and not in it
+	if [[ -f .gitignore ]]; then
+		if ! grep '^.gun$' .gitignore > /dev/null; then
+			echo ".gun" >> .gitignore
+		fi
+	fi
 }
 
 gun-version() {
