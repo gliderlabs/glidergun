@@ -27,15 +27,18 @@ gun-find-root() {
 }
 
 gun-load-profile() {
-	if [[ -f ".gun_$1" ]]; then
-		source ".gun_$1"
-		shift
+	declare profile="$1"
+	if [[ -f ".gun_$profile" ]]; then
+		source ".gun_$profile"
+		return
 	else
 		if [[ "$GUN_DEFAULT_PROFILE" && -f ".gun_$GUN_DEFAULT_PROFILE" ]]; then
 			source ".gun_$GUN_DEFAULT_PROFILE"
 			echo "* Using default profile $GUN_DEFAULT_PROFILE" 
+			return
 		fi
 	fi
+	return 1
 }
 
 main() {
@@ -44,7 +47,9 @@ main() {
 	
 	if [[ "$GUN_ROOT" ]]; then
 		deps-init
-		gun-load-profile
+		if gun-load-profile "$1"; then
+			shift
+		fi
 		if [[ -d "$GUN_MODULE_DIR" ]]; then
 			module-load-dir "$GUN_MODULE_DIR"
 		fi
