@@ -30,5 +30,6 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.2...HEAD
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/gliderlabs/glidergun/compare/v0.0.1...v0.0.3
 [0.0.2]: https://github.com/gliderlabs/glidergun/compare/v0.0.1...v0.0.2
