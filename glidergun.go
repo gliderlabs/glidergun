@@ -17,5 +17,6 @@ func main() {
 		"include/env.bash",
 		"include/gun.bash",
 		"include/deps.bash",
+		"include/color.bash",
 	}, Asset, true)
 }

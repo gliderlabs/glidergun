@@ -13,7 +13,7 @@ deps-dir() {
 deps-require() {
 	declare name="$1" version="${2:-latest}"
 	deps-check "$name" "$version" && return
-	echo "* Dependency required, installing $name $version ..."
+	echo "* Dependency required, installing $name $version ..." | yellow
 	deps-install "$name" "$version"
 }
 
@@ -29,7 +29,7 @@ deps-install() {
 	index=$(curl -s "$DEPS_REPO/$name")
 	tag="$(uname -s)$(uname -m | grep -s 64 > /dev/null && echo amd64 || echo 386)"
 	if ! dep="$(echo "$index" | grep -i -e "^$version $tag " -e "^$version * ")"; then
-		echo "!! Dependency not in index: $name $version"
+		echo "!! Dependency not in index: $name $version" | red
 		exit 2
 	fi
 	IFS=' ' read v t url checksum <<< "$dep"
@@ -37,9 +37,11 @@ deps-install() {
 	mkdir -p "$tmpdir"
 	tmpfile="${tmpdir:?}/$name"
 	curl -s $url > "$tmpfile"
-	if ! [[ "$(cat "$tmpfile" | md5)" = "$checksum" ]]; then
-		echo "!! Dependency checksum failed: $name $version $checksum"
-		exit 2
+	if [[ "$checksum" ]]; then
+		if ! [[ "$(cat "$tmpfile" | md5)" = "$checksum" ]]; then
+			echo "!! Dependency checksum failed: $name $version $checksum" | red
+			exit 2
+		fi
 	fi
 	cd "$tmpdir"
 	filename="$(basename "$url")"
