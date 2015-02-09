@@ -19,9 +19,15 @@ fn-info() {
 	echo "  $(fn-desc $fn)"
 	echo
 	if [[ "$showsource" ]]; then
-		type $fn | tail -n +2
+		type $fn
 		echo
 	fi
+}
+
+fn-source() {
+	declare desc="Shows function source"
+	declare fn="$1"
+	declare -f $fn | tail -n +2
 }
 
 fn-call() {

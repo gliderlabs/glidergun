@@ -1,7 +1,7 @@
 
 init() {
-	env-export AWS_ACCESS_KEY_ID
-	env-export AWS_SECRET_ACCESS_KEY
+	env-import AWS_ACCESS_KEY_ID
+	env-import AWS_SECRET_ACCESS_KEY
 	deps-require aws
 }
 
