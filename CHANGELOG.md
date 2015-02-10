@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## [0.0.4] - 2015-02-09
+### Fixed
+- Use bash from PATH
+- Fix single quoting in environment variables
+
 ## [0.0.3] - 2015-02-09
 ### Fixed
 - Fixed profile loading logic
@@ -30,6 +35,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.3...HEAD
-[0.0.3]: https://github.com/gliderlabs/glidergun/compare/v0.0.1...v0.0.3
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/gliderlabs/glidergun/compare/v0.0.3...v0.0.4
+[0.0.3]: https://github.com/gliderlabs/glidergun/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/gliderlabs/glidergun/compare/v0.0.1...v0.0.2

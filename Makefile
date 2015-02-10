@@ -1,7 +1,7 @@
 NAME=glidergun
 BINARYNAME=gun
 ARCH=$(shell uname -m)
-VERSION=0.0.3
+VERSION=0.0.4
 
 build:
 	go-bindata include
