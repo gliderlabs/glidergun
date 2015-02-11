@@ -7,4 +7,4 @@
 
 ## Upgrading
 
-	$ gun selfupdate
+	$ gun update

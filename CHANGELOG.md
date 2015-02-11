@@ -10,6 +10,19 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## [0.0.5] - 2015-02-11
+### Fixed
+- Avoid use of system `md5` by using baked-in `checksum`
+- Ensure `chmod +x` on downloaded binaries in deps.bash
+- `gun init` no longer breaks `.gitignore`
+
+### Added
+- `gun update` which performs a self-update to latest release
+- `gun version` also displays latest released version if different
+
+### Changed
+- `gun init` makes `.gun` with its own `.gitignore`
+
 ## [0.0.4] - 2015-02-09
 ### Fixed
 - Use bash from PATH
@@ -35,7 +48,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...HEAD
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/gliderlabs/glidergun/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/gliderlabs/glidergun/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/gliderlabs/glidergun/compare/v0.0.1...v0.0.2
