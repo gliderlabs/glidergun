@@ -38,7 +38,7 @@ deps-install() {
 	tmpfile="${tmpdir:?}/$name"
 	curl -s $url > "$tmpfile"
 	if [[ "$checksum" ]]; then
-		if ! [[ "$(cat "$tmpfile" | md5)" = "$checksum" ]]; then
+		if ! [[ "$(cat "$tmpfile" | checksum md5)" = "$checksum" ]]; then
 			echo "!! Dependency checksum failed: $name $version $checksum" | red
 			exit 2
 		fi
@@ -57,6 +57,7 @@ deps-install() {
 		eval "$script" > /dev/null
 		unset PREFIX
 	else
+		chmod +x "$tmpfile"
 		mv "$tmpfile" "$(deps-dir)/bin"
 	fi
 	cd - > /dev/null
