@@ -79,4 +79,3 @@ cmd-help() {
 		cmd-ns ""
 	fi
 }
-cmd-export cmd-help help

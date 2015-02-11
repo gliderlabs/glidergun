@@ -1,19 +1,30 @@
 
+readonly latest_version_url="https://dl.gliderlabs.com/glidergun/latest/version.txt"
+readonly latest_checksum_url="https://dl.gliderlabs.com/glidergun/latest/%s/glidergun.tgz.sha256"
+
 declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}"
 
 gun-init() {
 	declare desc="Initialize a glidergun project directory"
 	mkdir .gun
-	if [[ -f .gitignore ]]; then
-		if ! grep '^.gun$' .gitignore > /dev/null; then
-			echo ".gun" >> .gitignore
-		fi
-	fi
+	echo "*" > .gun/.gitignore
+	echo "!.gitignore" >> .gun/.gitignore
 }
 
 gun-version() {
 	declare desc="Display version of glidergun"
 	echo "glidergun $GUN_VERSION"
+}
+
+gun-update() {
+	declare desc="Self-update glidergun to latest version"
+	if [[ "$GUN_VERSION" == "$(curl --fail -s $latest_version_url)" ]]; then
+		echo "glidergun is already up-to-date!"
+		exit
+	fi
+	local platform="$(uname -sm | tr " " "_")"
+	# calls back into go executable
+	selfupdate "$platform" "$(curl --fail -s $(printf $latest_checksum_url $platform))"
 }
 
 gun-find-root() {
@@ -50,14 +61,17 @@ main() {
 			cmd-export env-show env
 			cmd-export fn-call fn
 		else
-			if [[ "$1" != "init" && "$1" != "version" && "$1" != "help" ]]; then
+			local builtins=(init version help selfupdate)
+			if ! [[ ${builtins[*]} =~ "$1" ]]; then
 				echo "* Unable to load profile $1" | yellow
 			fi
 		fi
 	fi
 
 	cmd-export gun-init init
+	cmd-export cmd-help help
 	cmd-export gun-version version
-
+	cmd-export gun-update update
+	
 	cmd-ns "" "$@"
 }
