@@ -1,12 +1,18 @@
 package main
 
 import (
+	"archive/tar"
+	"bytes"
+	"compress/gzip"
 	"crypto/md5"
 	"crypto/sha1"
 	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
 	"hash"
 	"io"
+	"io/ioutil"
+	"net/http"
 	"os"
 
 	"github.com/inconshreveable/go-update"
@@ -14,8 +20,7 @@ import (
 )
 
 const (
-	LatestVersionUrl      = "https://dl.gliderlabs.com/glidergun/latest/version.txt"
-	LatestDownloadUrlBase = "https://dl.gliderlabs.com/glidergun/latest/"
+	LatestDownloadUrl = "https://dl.gliderlabs.com/glidergun/latest/%s.tgz"
 )
 
 var Version string
@@ -31,8 +36,49 @@ func Selfupdate(args []string) {
 	if err != nil {
 		fatal("Can't update because: '" + err.Error() + "'. Try as root?")
 	}
-	fatal(args[0] + " " + args[1])
-	//err, errRecover := up.FromUrl("https://example.com/new/hosts")
+	checksumExpected, err := hex.DecodeString(args[1])
+	if err != nil {
+		fatal(err.Error())
+	}
+	url := fmt.Sprintf(LatestDownloadUrl, args[0])
+	fmt.Printf("Downloading %v ...\n", url)
+	resp, err := http.Get(url)
+	if err != nil {
+		fatal(err.Error())
+	}
+	defer resp.Body.Close()
+	buf := new(bytes.Buffer)
+	data, err := ioutil.ReadAll(io.TeeReader(resp.Body, buf))
+	if err != nil {
+		fatal(err.Error())
+	}
+	checksum := sha256.New().Sum(data)
+	if bytes.Equal(checksum, checksumExpected) {
+		fatal("Checksum failed. Got: " + fmt.Sprintf("%x", checksum))
+	}
+	z, err := gzip.NewReader(buf)
+	if err != nil {
+		fatal(err.Error())
+	}
+	defer z.Close()
+	t := tar.NewReader(z)
+	hdr, err := t.Next()
+	if err != nil {
+		fatal(err.Error())
+	}
+	if hdr.Name != "gun" {
+		fatal("glidergun binary not found in downloaded tarball")
+	}
+	err, errRecover := up.FromStream(t)
+	if err != nil {
+		fmt.Printf("Update failed: %v\n", err)
+		if errRecover != nil {
+			fmt.Printf("Failed to recover bad update: %v!\n", errRecover)
+			fmt.Printf("Program exectuable may be missing!\n")
+		}
+		os.Exit(2)
+	}
+	fmt.Println("Updated.")
 }
 
 func Checksum(args []string) {

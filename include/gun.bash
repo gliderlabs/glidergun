@@ -1,6 +1,6 @@
 
 readonly latest_version_url="https://dl.gliderlabs.com/glidergun/latest/version.txt"
-readonly latest_checksum_url="https://dl.gliderlabs.com/glidergun/latest/%s/glidergun.tgz.sha256"
+readonly latest_checksum_url="https://dl.gliderlabs.com/glidergun/latest/%s.tgz.sha256"
 
 declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}"
 
@@ -13,7 +13,13 @@ gun-init() {
 
 gun-version() {
 	declare desc="Display version of glidergun"
-	echo "glidergun $GUN_VERSION"
+	local latest="$(curl -s $latest_version_url)"
+	if [[ "$GUN_VERSION" == "$latest" ]]; then
+		latest=""
+	else
+		latest=" (latest: $latest)"
+	fi
+	echo "glidergun $GUN_VERSION$latest"
 }
 
 gun-update() {
@@ -22,9 +28,11 @@ gun-update() {
 		echo "glidergun is already up-to-date!"
 		exit
 	fi
-	local platform="$(uname -sm | tr " " "_")"
+	local platform checksum
+	platform="$(uname -sm | tr " " "_")"
+	checksum="$(curl --fail -s $(printf "$latest_checksum_url" "$platform"))"
 	# calls back into go executable
-	selfupdate "$platform" "$(curl --fail -s $(printf $latest_checksum_url $platform))"
+	selfupdate "$platform" "$checksum"
 }
 
 gun-find-root() {
