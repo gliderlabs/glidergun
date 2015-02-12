@@ -28,7 +28,7 @@ deps-install() {
 	mkdir -p "$(deps-dir)/bin"
 	index=$(curl -s "$DEPS_REPO/$name")
 	tag="$(uname -s)$(uname -m | grep -s 64 > /dev/null && echo amd64 || echo 386)"
-	if ! dep="$(echo "$index" | grep -i -e "^$version $tag " -e "^$version * ")"; then
+	if ! dep="$(echo "$index" | grep -i "^$version $tag " || echo "$index" | grep -i "^$version * ")"; then
 		echo "!! Dependency not in index: $name $version" | red
 		exit 2
 	fi
