@@ -8,6 +8,13 @@ cmd-list() {
 	cmd-list-keys "$ns" | sed "s/$ns://"
 }
 
+cmd-bash-complete() {
+    declare desc="Creates a bash autocomplete function"
+
+    local commands=$(cmd-list | xargs)
+    echo complete -W \"$commands\" $SELF
+}
+
 cmd-list-keys() {
 	declare ns="$1"
 	for k in "${!CMDS[@]}"; do
