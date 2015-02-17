@@ -4,6 +4,9 @@ dependencies:
     - make deps
   override:
     - make build
+  post:
+    - tar -czvf $CIRCLE_ARTIFACTS/gun-linux.tgz -C build/Linux gun
+    - tar -czvf $CIRCLE_ARTIFACTS/gun-darwin.tgz -C build/Darwin gun
 
 test:
   override:
