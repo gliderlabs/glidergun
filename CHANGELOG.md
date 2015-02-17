@@ -10,6 +10,13 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## [0.0.6] - 2015-02-16
+### Fixed
+- Resolved issue where `deps-require` downloads wrong binary
+
+### Changed
+- Switched from shunit2 to simpler test system
+
 ## [0.0.5] - 2015-02-11
 ### Fixed
 - Avoid use of system `md5` by using baked-in `checksum`
@@ -48,7 +55,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.5...HEAD
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.6...HEAD
+[0.0.6]: https://github.com/gliderlabs/glidergun/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/gliderlabs/glidergun/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/gliderlabs/glidergun/compare/v0.0.2...v0.0.3
