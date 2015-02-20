@@ -1,0 +1,9 @@
+
+init() {
+	cmd-export hello
+}
+
+hello() {
+	declare desc="Says hello"
+	echo "Hello!"
+}
