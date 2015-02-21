@@ -1,7 +1,6 @@
 
-
 init() {
-	cmd-export-ns bar
+	cmd-export-ns bar "Bar namespace"
 	cmd-export bar-hello
 	deps-require jq 1.4
 }

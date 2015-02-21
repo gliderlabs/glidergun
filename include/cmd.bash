@@ -33,16 +33,16 @@ cmd-export() {
 
 cmd-export-ns() {
 	declare ns="$1" desc="$2"
-	eval "$1() { 
+	eval "$1() {
 		declare desc=\"$desc\"
-		cmd-ns $1 \"\$@\"; 
+		cmd-ns $1 \"\$@\";
 	}"
 	cmd-export "$1"
 	CMDS["$1"]="$1"
 }
 
 cmd-ns() {
-	local ns="$1"; shift 
+	local ns="$1"; shift
 	local cmd="$1"; shift || true
 	local status=0
 	if cmd-list "$ns" | grep ^$cmd\$ &> /dev/null; then
@@ -58,9 +58,9 @@ cmd-ns() {
 		echo "Available commands:"
 		for cmd in $(cmd-list "$ns"); do
 			printf "  %-24s %s\n" "$cmd" "$(fn-desc "${CMDS["$ns:$cmd"]}")"
-			for subcmd in $(cmd-list "$cmd"); do
-				printf "    %-24s %s\n" "$subcmd" "$(fn-desc "${CMDS["$cmd:$subcmd"]}")"
-			done
+			#for subcmd in $(cmd-list "$cmd"); do
+			#	printf "    %-24s %s\n" "$subcmd" "$(fn-desc "${CMDS["$cmd:$subcmd"]}")"
+			#done
 		done
 		echo
 		exit $status

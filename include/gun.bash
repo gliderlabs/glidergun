@@ -6,9 +6,11 @@ declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}"
 
 gun-init() {
 	declare desc="Initialize a glidergun project directory"
-	mkdir .gun
-	echo "*" > .gun/.gitignore
-	echo "!.gitignore" >> .gun/.gitignore
+	touch Gunfile
+	mkdir -p .gun
+	if [[ -f .gitignore ]]; then
+		printf "\n.gun\nGunfile.*\n" >> .gitignore
+	fi
 }
 
 gun-version() {
@@ -37,10 +39,10 @@ gun-update() {
 
 gun-find-root() {
 	local path="$PWD"
-  	while [[ "$path" != "" && ! -d "$path/.gun" ]]; do
+	while [[ "$path" != "" && ! -f "$path/Gunfile" ]]; do
     	path="${path%/*}"
   	done
-  	if [[ -d "$path/.gun" ]]; then
+	if [[ -f "$path/Gunfile" ]]; then
   		GUN_ROOT="$path"
   		cd "$GUN_ROOT"
   	fi
@@ -50,36 +52,37 @@ main() {
 	set -eo pipefail; [[ "$TRACE" ]] && set -x
 	color-init
 	gun-find-root
-	
+
 	if [[ "$GUN_ROOT" ]]; then
 		deps-init
-		if [[ -f ".gun_$1" ]]; then
-			source ".gun_$1"
+		module-load "Gunfile"
+		if [[ -f "Gunfile.$1" ]]; then
+			module-load "Gunfile.$1"
 			GUN_PROFILE="$1"
 			shift
-		elif [[ "$GUN_DEFAULT_PROFILE" && -f ".gun_$GUN_DEFAULT_PROFILE" ]]; then
-			source ".gun_$GUN_DEFAULT_PROFILE"
+		elif [[ "$GUN_DEFAULT_PROFILE" && -f "Gunfile.$GUN_DEFAULT_PROFILE" ]]; then
+			module-load "Gunfile.$GUN_DEFAULT_PROFILE"
 			echo "* Using default profile $GUN_DEFAULT_PROFILE" | yellow
 			GUN_PROFILE="$GUN_DEFAULT_PROFILE"
 		fi
-		if [[ "$GUN_PROFILE" ]]; then
-			if [[ -d "$GUN_MODULE_DIR" ]]; then
-				module-load-dir "$GUN_MODULE_DIR"
-			fi
-			cmd-export env-show env
-			cmd-export fn-call fn
-		else
-			local builtins=(init version help selfupdate)
-			if ! [[ ${builtins[*]} =~ "$1" ]]; then
-				echo "* Unable to load profile $1" | yellow
-			fi
+		if [[ -d "$GUN_MODULE_DIR" ]]; then
+			module-load-dir "$GUN_MODULE_DIR"
 		fi
+		cmd-export env-show env
+		cmd-export fn-call fn
+	else
+		cmd-export gun-init init
 	fi
 
-	cmd-export gun-init init
 	cmd-export cmd-help help
 	cmd-export gun-version version
 	cmd-export gun-update update
-	
-	cmd-ns "" "$@"
+
+	if [[ "${!#}" == "-h" || "${!#}" == "--help" ]]; then
+		local args=("$@")
+		unset args[${#args[@]}-1]
+		cmd-ns "" help "${args[@]}"
+	else
+		cmd-ns "" "$@"
+	fi
 }

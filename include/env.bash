@@ -15,6 +15,7 @@ env-import() {
 }
 
 env-show() {
+	declare desc="Shows relevant environment variables"
 	local longest=0
 	for var in "${_env[@]}"; do
 		if [[ "${#var}" -gt "$longest" ]]; then

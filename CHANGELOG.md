@@ -10,6 +10,21 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+## [0.0.7] - 2015-02-20
+### Added
+- Support for `Gunfile` as global module / profile
+- Support for projects without profiles, just `Gunfile`
+- Support for `init()` in profiles and `Gunfile`
+- Support for `-h` and `--help` as last argument
+- `.gun` and `Gunfile.*` added to `.gitignore` on `gun init`
+
+### Removed
+- Stopped listing second level commands
+
+### Changed
+- Using `Gunfile` to detect glidergun project instead of `.gun`
+- Profiles now use `Gunfile.<name>` instead of `.gun_<name>`
+
 ## [0.0.6] - 2015-02-16
 ### Fixed
 - Resolved issue where `deps-require` downloads wrong binary
@@ -55,7 +70,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.6...HEAD
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.7...HEAD
+[0.0.7]: https://github.com/gliderlabs/glidergun/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/gliderlabs/glidergun/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/gliderlabs/glidergun/compare/v0.0.3...v0.0.4

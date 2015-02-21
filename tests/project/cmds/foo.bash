@@ -1,7 +1,7 @@
 
 
 init() {
-	cmd-export-ns foo
+	cmd-export-ns foo "Foo namespace"
 	cmd-export foo-hello
 }
 
