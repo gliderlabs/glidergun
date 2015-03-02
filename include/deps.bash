@@ -36,7 +36,7 @@ deps-install() {
 	tmpdir="$(deps-dir)/tmp"
 	mkdir -p "$tmpdir"
 	tmpfile="${tmpdir:?}/$name"
-	curl -s $url > "$tmpfile"
+	curl -Ls $url > "$tmpfile"
 	if [[ "$checksum" ]]; then
 		if ! [[ "$(cat "$tmpfile" | checksum md5)" = "$checksum" ]]; then
 			echo "!! Dependency checksum failed: $name $version $checksum" | red
