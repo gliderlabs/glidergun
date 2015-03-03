@@ -46,7 +46,9 @@ gun-find-root() {
   		GUN_ROOT="$path"
   	fi
 
-    [[ -d "$GUN_ROOT" ]] && cd $GUN_ROOT
+    if [[ -d "$GUN_ROOT" ]]; then
+        cd $GUN_ROOT
+    fi
 }
 
 main() {
