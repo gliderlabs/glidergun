@@ -1,6 +1,10 @@
+machine:
+  environment:
+    PROJECT_ROOT: $HOME/.go_workspace/src/github.com/gliderlabs/glidergun
 dependencies:
   pre:
     - rm ~/.gitconfig
+    - rm -rf $PROJECT_ROOT; mkdir -p ${PROJECT_ROOT%/*} ; ln -s $PWD $PROJECT_ROOT
     - make deps
   override:
     - make build
