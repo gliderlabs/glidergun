@@ -19,7 +19,7 @@ deps-require() {
 
 deps-check() {
 	declare name="$1" version="${2:-latest}"
-	[[ -f "$(deps-dir)/bin/$name" ]]
+	[[ -e "$(deps-dir)/bin/$name" ]]
 }
 
 deps-install() {
