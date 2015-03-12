@@ -45,7 +45,7 @@ deps-install() {
 	fi
 	cd "$tmpdir"
 	filename="$(basename "$url")"
-	extension="${filename##*.}"
+	extension="${filename#*.}"
 	case "$extension" in
 		zip) unzip "$tmpfile" > /dev/null;;
 		tgz|tar.gz) tar -zxf "$tmpfile" > /dev/null;;
