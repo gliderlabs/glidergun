@@ -4,6 +4,7 @@ ARCH=$(shell uname -m)
 VERSION=0.0.7
 
 build:
+	go generate
 	go-bindata include
 	mkdir -p build/Linux  && GOOS=linux  go build -ldflags "-X main.Version $(VERSION)" -o build/Linux/$(BINARYNAME)
 	mkdir -p build/Darwin && GOOS=darwin go build -ldflags "-X main.Version $(VERSION)" -o build/Darwin/$(BINARYNAME)
@@ -12,6 +13,7 @@ install: build
 	install build/$(shell uname -s)/gun /usr/local/bin
 
 deps:
+	go get -u github.com/progrium/go-extpoints
 	go get -u github.com/jteeuwen/go-bindata/...
 	go get -u github.com/progrium/gh-release/...
 	go get || true
