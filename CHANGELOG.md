@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 ### Changed
+- Binary is statically compiled
 
 ## [0.0.7] - 2015-02-20
 ### Added
