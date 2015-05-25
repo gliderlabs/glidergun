@@ -100,8 +100,15 @@ func Checksum(args []string) {
 	fmt.Printf("%x\n", h.Sum(nil))
 }
 
+func extractBash() {
+	bashDir := ".gun/bin"
+	RestoreAsset(".", bashDir+"/bash")
+	os.Setenv("PATH", bashDir+":"+os.Getenv("PATH"))
+}
+
 func main() {
 	os.Setenv("GUN_VERSION", Version)
+	extractBash()
 	basher.Application(map[string]func([]string){
 		"checksum":   Checksum,
 		"selfupdate": Selfupdate,

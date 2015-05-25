@@ -1,7 +1,7 @@
 dependencies:
   pre:
     - rm ~/.gitconfig
-    - make deps
+    - make deps binaries
   override:
     - make build
   post:
