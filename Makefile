@@ -12,7 +12,8 @@ install: build
 	install build/$(shell uname -s)/gun /usr/local/bin
 
 test:
-	basht tests/*.bash
+	go install
+	GUN=glidergun basht tests/*.bash
 
 deps:
 	go get -u github.com/jteeuwen/go-bindata/...
