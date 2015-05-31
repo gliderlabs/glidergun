@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased][unreleased]
 ### Fixed
-- Resolved issue where `deps-install` download url has a riderect
+- Resolved issue where `deps-install` download URL has a redirect
 - Ensure `gun-find-root` changes working directory to $GUN_ROOT
 
 ### Added

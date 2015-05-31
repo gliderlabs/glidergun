@@ -11,9 +11,13 @@ build:
 install: build
 	install build/$(shell uname -s)/gun /usr/local/bin
 
+test:
+	basht tests/*.bash
+
 deps:
 	go get -u github.com/jteeuwen/go-bindata/...
 	go get -u github.com/progrium/gh-release/...
+	go get -u github.com/progrium/basht/...
 	go get || true
 
 release:

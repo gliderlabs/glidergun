@@ -1,3 +1,4 @@
 build
 release
 bindata.go
+tests/project/.gun
