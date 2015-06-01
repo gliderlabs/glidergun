@@ -7,10 +7,19 @@ All notable changes to this project will be documented in this file.
 - Ensure `gun-find-root` changes working directory to $GUN_ROOT
 
 ### Added
+- `-t` and `--trace` as last argument, enables `-x` closer to command
+- Basic test coverage
+- Build artifacts on CircleCI, including Go workspace
+- Calling help explicitly will show second level commands
 
 ### Removed
 
 ### Changed
+- `version` builtin command is now `:version`
+- `help` builtin command is now `:help`
+- `update` builtin command is now `:update`
+- `env` builtin command is now `:env`
+- `fn` builtin command is now `::`
 
 ## [0.0.7] - 2015-02-20
 ### Added

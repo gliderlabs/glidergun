@@ -31,7 +31,7 @@ fn-source() {
 }
 
 fn-call() {
-	declare desc="Run arbitrary function"
+	declare desc="Run function in environment"
 	declare fn="$1"; shift
 	"$fn" "$@"
 }

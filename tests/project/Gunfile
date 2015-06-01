@@ -1,9 +1,14 @@
 
 init() {
 	cmd-export hello
+	cmd-export aliased-cmd aliased
 }
 
 hello() {
 	declare desc="Says hello"
 	echo "Hello!"
+}
+
+aliased-cmd() {
+	echo "aliased"
 }

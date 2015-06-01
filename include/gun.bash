@@ -71,20 +71,25 @@ main() {
 		if [[ -d "$GUN_MODULE_DIR" ]]; then
 			module-load-dir "$GUN_MODULE_DIR"
 		fi
-		cmd-export env-show env
-		cmd-export fn-call fn
+		cmd-export env-show :env
+		cmd-export fn-call ::
 	else
 		cmd-export gun-init init
 	fi
 
-	cmd-export cmd-help help
-	cmd-export gun-version version
-	cmd-export gun-update update
+	cmd-export cmd-help :help
+	cmd-export gun-version :version
+	cmd-export gun-update :update
 
 	if [[ "${!#}" == "-h" || "${!#}" == "--help" ]]; then
 		local args=("$@")
 		unset args[${#args[@]}-1]
-		cmd-ns "" help "${args[@]}"
+		cmd-ns "" :help "${args[@]}"
+	elif [[ "${!#}" == "-t" || "${!#}" == "--trace" ]]; then
+		local args=("$@")
+		unset args[${#args[@]}-1]
+		set -x
+		cmd-ns "" "${args[@]}"
 	else
 		cmd-ns "" "$@"
 	fi

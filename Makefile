@@ -13,6 +13,7 @@ install: build
 	install build/$(shell uname -s)/gun /usr/local/bin
 
 test:
+	go-bindata include
 	go install
 	GUN=glidergun basht tests/*.bash
 

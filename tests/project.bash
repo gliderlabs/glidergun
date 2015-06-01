@@ -23,15 +23,20 @@ T_bar-namespace-cmd() {
 }
 
 T_foo-env-import() {
-  [[ "$($GUN env | grep AWS_ACCESS_KEY_ID)" ]]
+  [[ "$($GUN :env | grep AWS_ACCESS_KEY_ID)" ]]
 }
 
 T_prod-profile() {
-  result="$($GUN prod env)"
+  result="$($GUN prod :env)"
   [[ "$result" == "AWS_ACCESS_KEY_ID = prod-access-key" ]]
 }
 
 T_stage-profile() {
-  result="$($GUN stage env)"
+  result="$($GUN stage :env)"
   [[ "$result" == "AWS_ACCESS_KEY_ID = staging-access-key" ]]
+}
+
+T_aliased-cmd() {
+  result="$($GUN aliased)"
+  [[ "$result" == "aliased" ]]
 }
