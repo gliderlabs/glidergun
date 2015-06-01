@@ -4,11 +4,11 @@ readonly latest_checksum_url="https://dl.gliderlabs.com/glidergun/latest/%s.tgz.
 
 declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}" # deprecated
 declare GUN_PATH="${GUN_PATH:-"$GUN_MODULE_DIR"}"
+declare GUN_DIR="${GUN_DIR:-.gun}"
 
 gun-init() {
 	declare desc="Initialize a glidergun project directory"
 	touch Gunfile
-	mkdir -p .gun
 	if [[ -f .gitignore ]]; then
 		printf "\n.gun\nGunfile.*\n" >> .gitignore
 	fi
@@ -41,15 +41,16 @@ gun-update() {
 gun-find-root() {
 	local path="$PWD"
 	while [[ "$path" != "" && ! -f "$path/Gunfile" ]]; do
-    	path="${path%/*}"
-  	done
+    path="${path%/*}"
+  done
 	if [[ -f "$path/Gunfile" ]]; then
-  		GUN_ROOT="$path"
-  	fi
+  	GUN_ROOT="$path"
+  fi
 
-    if [[ -d "$GUN_ROOT" ]]; then
-        cd $GUN_ROOT
-    fi
+  if [[ -d "$GUN_ROOT" ]]; then
+  	cd $GUN_ROOT
+		mkdir -p $GUN_DIR
+  fi
 }
 
 main() {
@@ -69,6 +70,7 @@ main() {
 			echo "* Using default profile $GUN_DEFAULT_PROFILE" | >&2 yellow
 			GUN_PROFILE="$GUN_DEFAULT_PROFILE"
 		fi
+		module-load-remote
 		local gun_module_paths
 		IFS=':' read -ra gun_module_paths <<< "$GUN_PATH"
 		for path in "${gun_module_paths[@]}"; do
@@ -81,6 +83,7 @@ main() {
 	fi
 
 	cmd-export cmd-help :help
+	cmd-export module-get :get
 	cmd-export gun-version :version
 	cmd-export gun-update :update
 

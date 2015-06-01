@@ -108,9 +108,9 @@ func main() {
 	}, []string{
 		"src/fn.bash",
 		"src/cmd.bash",
-		"src/module.bash",
 		"src/env.bash",
 		"src/gun.bash",
+		"src/module.bash",
 		"src/deps.bash",
 		"src/color.bash",
 	}, Asset, true)
