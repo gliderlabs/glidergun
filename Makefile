@@ -2,20 +2,27 @@ NAME=glidergun
 BINARYNAME=gun
 OWNER=gliderlabs
 ARCH=$(shell uname -m)
-VERSION=0.0.7
+VERSION=0.1.0
 
-build:
-	go-bindata include
-	mkdir -p build/Linux  && GOOS=linux  go build -ldflags "-X main.Version $(VERSION)" -o build/Linux/$(BINARYNAME)
-	mkdir -p build/Darwin && GOOS=darwin go build -ldflags "-X main.Version $(VERSION)" -o build/Darwin/$(BINARYNAME)
+build: src
+	mkdir -p build/Linux && GOOS=linux CGO_ENABLED=0 go build -a \
+		-installsuffix cgo \
+		-ldflags "-X main.Version $(VERSION)" \
+		-o build/Linux/$(BINARYNAME)
+	mkdir -p build/Darwin && GOOS=darwin CGO_ENABLED=0 go build -a \
+		-installsuffix cgo \
+		-ldflags "-X main.Version $(VERSION)" \
+		-o build/Darwin/$(BINARYNAME)
+
+test: src
+	go install
+	GUN=glidergun basht tests/*.bash
+
+src:
+	go-bindata src
 
 install: build
 	install build/$(shell uname -s)/gun /usr/local/bin
-
-test:
-	go-bindata include
-	go install
-	GUN=glidergun basht tests/*.bash
 
 deps:
 	go get -u github.com/jteeuwen/go-bindata/...
@@ -40,4 +47,4 @@ circleci:
 clean:
 	rm -rf build release
 
-.PHONY: build release
+.PHONY: build release src

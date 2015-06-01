@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 ### Changed
+- Static compilation of binary
 - `version` builtin command is now `:version`
 - `help` builtin command is now `:help`
 - `update` builtin command is now `:update`
