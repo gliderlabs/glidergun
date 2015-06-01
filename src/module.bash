@@ -9,7 +9,9 @@ module-load() {
 
 module-load-dir() {
 	declare dir="$1"
+	shopt -s nullglob
 	for path in $dir/*.bash; do
 		module-load "$path"
 	done
+	shopt -u nullglob
 }

@@ -11,10 +11,13 @@ All notable changes to this project will be documented in this file.
 - Basic test coverage
 - Build artifacts on CircleCI, including Go workspace
 - Calling help explicitly will show second level commands
+- `GUN_PATH` used for module sourcing with `PATH`-like semantics
 
 ### Removed
 
 ### Changed
+- Deprecated `GUN_MODULE_PATH` in favor of `GUN_PATH`
+- Standard error used for warnings and errors
 - Static compilation of binary
 - `version` builtin command is now `:version`
 - `help` builtin command is now `:help`

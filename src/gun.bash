@@ -2,7 +2,8 @@
 readonly latest_version_url="https://dl.gliderlabs.com/glidergun/latest/version.txt"
 readonly latest_checksum_url="https://dl.gliderlabs.com/glidergun/latest/%s.tgz.sha256"
 
-declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}"
+declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}" # deprecated
+declare GUN_PATH="${GUN_PATH:-"$GUN_MODULE_DIR"}"
 
 gun-init() {
 	declare desc="Initialize a glidergun project directory"
@@ -65,12 +66,14 @@ main() {
 			shift
 		elif [[ "$GUN_DEFAULT_PROFILE" && -f "Gunfile.$GUN_DEFAULT_PROFILE" ]]; then
 			module-load "Gunfile.$GUN_DEFAULT_PROFILE"
-			echo "* Using default profile $GUN_DEFAULT_PROFILE" | yellow
+			echo "* Using default profile $GUN_DEFAULT_PROFILE" | >&2 yellow
 			GUN_PROFILE="$GUN_DEFAULT_PROFILE"
 		fi
-		if [[ -d "$GUN_MODULE_DIR" ]]; then
-			module-load-dir "$GUN_MODULE_DIR"
-		fi
+		local gun_module_paths
+		IFS=':' read -ra gun_module_paths <<< "$GUN_PATH"
+		for path in "${gun_module_paths[@]}"; do
+			module-load-dir "$path"
+		done
 		cmd-export env-show :env
 		cmd-export fn-call ::
 	else
