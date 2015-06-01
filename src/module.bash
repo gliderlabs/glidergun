@@ -29,6 +29,9 @@ module-load-remote() {
 module-require() {
 	declare url="$1" as="$2"
 	module-check "$url" "$as" && return
+	if [[ ! "$as" ]]; then
+		as="$(basename ${url%%.git})"
+	fi
 	echo "* Module required, installing $as from $url ..." | >&2 yellow
 	module-get "$url" "$as"
 	module-load-dir "$GUN_REMOTE_MODULES/$as"
