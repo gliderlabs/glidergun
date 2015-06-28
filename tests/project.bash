@@ -40,3 +40,14 @@ T_aliased-cmd() {
   result="$($GUN aliased)"
   [[ "$result" == "aliased" ]]
 }
+
+T_autoexported-cmd() {
+  result="$($GUN exported)"
+  [[ "$result" == "exported" ]]
+}
+
+T_autoexported-cmd-with-dash() {
+  result="$($GUN lazy-command)"
+  [[ "$result" == "exported too" ]]
+}
+
