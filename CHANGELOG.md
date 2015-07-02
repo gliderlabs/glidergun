@@ -1,7 +1,17 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+
 ## [Unreleased][unreleased]
+### Fixed
+
+### Added
+
+### Removed
+
+### Changed
+
+## [0.1.0] - 2015-07-02
 ### Fixed
 - Resolved issue where `deps-install` download URL has a redirect
 - Ensure `gun-find-root` changes working directory to $GUN_ROOT
@@ -12,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - Build artifacts on CircleCI, including Go workspace
 - Calling help explicitly will show second level commands
 - `GUN_PATH` used for module sourcing with `PATH`-like semantics
+- Added some initial remote module libraries
 
 ### Removed
 
@@ -85,7 +96,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.7...HEAD
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/gliderlabs/glidergun/compare/v0.0.7...v0.1.0
 [0.0.7]: https://github.com/gliderlabs/glidergun/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/gliderlabs/glidergun/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...v0.0.5
