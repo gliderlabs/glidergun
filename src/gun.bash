@@ -2,12 +2,13 @@
 readonly latest_version_url="https://dl.gliderlabs.com/glidergun/latest/version.txt"
 readonly latest_checksum_url="https://dl.gliderlabs.com/glidergun/latest/%s.tgz.sha256"
 
-declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}"
+declare GUN_MODULE_DIR="${GUN_MODULE_DIR:-cmds}" # deprecated
+declare GUN_PATH="${GUN_PATH:-"$GUN_MODULE_DIR"}"
+declare GUN_DIR="${GUN_DIR:-.gun}"
 
 gun-init() {
 	declare desc="Initialize a glidergun project directory"
 	touch Gunfile
-	mkdir -p .gun
 	if [[ -f .gitignore ]]; then
 		printf "\n.gun\nGunfile.*\n" >> .gitignore
 	fi
@@ -40,12 +41,24 @@ gun-update() {
 gun-find-root() {
 	local path="$PWD"
 	while [[ "$path" != "" && ! -f "$path/Gunfile" ]]; do
-    	path="${path%/*}"
-  	done
+		path="${path%/*}"
+	done
 	if [[ -f "$path/Gunfile" ]]; then
-  		GUN_ROOT="$path"
-  		cd "$GUN_ROOT"
-  	fi
+		GUN_ROOT="$path"
+	fi
+
+	if [[ -d "$GUN_ROOT" ]]; then
+		cd $GUN_ROOT
+		mkdir -p $GUN_DIR
+	fi
+}
+
+gun-reload-path() {
+	local gun_module_paths
+	IFS=':' read -ra gun_module_paths <<< "$GUN_PATH"
+	for path in "${gun_module_paths[@]}"; do
+		module-load-dir "$path"
+	done
 }
 
 main() {
@@ -62,26 +75,31 @@ main() {
 			shift
 		elif [[ "$GUN_DEFAULT_PROFILE" && -f "Gunfile.$GUN_DEFAULT_PROFILE" ]]; then
 			module-load "Gunfile.$GUN_DEFAULT_PROFILE"
-			echo "* Using default profile $GUN_DEFAULT_PROFILE" | yellow
+			echo "* Using default profile $GUN_DEFAULT_PROFILE" | >&2 yellow
 			GUN_PROFILE="$GUN_DEFAULT_PROFILE"
 		fi
-		if [[ -d "$GUN_MODULE_DIR" ]]; then
-			module-load-dir "$GUN_MODULE_DIR"
-		fi
-		cmd-export env-show env
-		cmd-export fn-call fn
+		module-load-remote
+		gun-reload-path
+		cmd-export env-show :env
+		cmd-export fn-call ::
 	else
 		cmd-export gun-init init
 	fi
 
-	cmd-export cmd-help help
-	cmd-export gun-version version
-	cmd-export gun-update update
+	cmd-export cmd-help :help
+	cmd-export module-get :get
+	cmd-export gun-version :version
+	cmd-export gun-update :update
 
 	if [[ "${!#}" == "-h" || "${!#}" == "--help" ]]; then
 		local args=("$@")
 		unset args[${#args[@]}-1]
-		cmd-ns "" help "${args[@]}"
+		cmd-ns "" :help "${args[@]}"
+	elif [[ "${!#}" == "-t" || "${!#}" == "--trace" ]]; then
+		local args=("$@")
+		unset args[${#args[@]}-1]
+		set -x
+		cmd-ns "" "${args[@]}"
 	else
 		cmd-ns "" "$@"
 	fi

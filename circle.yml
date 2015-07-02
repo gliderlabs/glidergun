@@ -1,16 +1,17 @@
 dependencies:
   pre:
-    - rm ~/.gitconfig
-    - make deps
+    - make circleci
   override:
+    - make deps
     - make build
   post:
     - tar -czvf $CIRCLE_ARTIFACTS/gun-linux.tgz -C build/Linux gun
     - tar -czvf $CIRCLE_ARTIFACTS/gun-darwin.tgz -C build/Darwin gun
+    - tar -czvf $CIRCLE_ARTIFACTS/go-workspace.tgz -C ~/.go_workspace .
 
 test:
   override:
-    - /bin/true
+    - make test
 
 deployment:
   release:

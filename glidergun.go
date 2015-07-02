@@ -106,12 +106,12 @@ func main() {
 		"checksum":   Checksum,
 		"selfupdate": Selfupdate,
 	}, []string{
-		"include/fn.bash",
-		"include/cmd.bash",
-		"include/module.bash",
-		"include/env.bash",
-		"include/gun.bash",
-		"include/deps.bash",
-		"include/color.bash",
+		"src/fn.bash",
+		"src/cmd.bash",
+		"src/env.bash",
+		"src/gun.bash",
+		"src/module.bash",
+		"src/deps.bash",
+		"src/color.bash",
 	}, Asset, true)
 }

@@ -1,6 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+
 ## [Unreleased][unreleased]
 ### Fixed
 
@@ -9,6 +10,31 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 ### Changed
+
+## [0.1.0] - 2015-07-02
+### Fixed
+- Resolved issue where `deps-install` download URL has a redirect
+- Ensure `gun-find-root` changes working directory to $GUN_ROOT
+
+### Added
+- `-t` and `--trace` as last argument, enables `-x` closer to command
+- Basic test coverage
+- Build artifacts on CircleCI, including Go workspace
+- Calling help explicitly will show second level commands
+- `GUN_PATH` used for module sourcing with `PATH`-like semantics
+- Added some initial remote module libraries
+
+### Removed
+
+### Changed
+- Deprecated `GUN_MODULE_PATH` in favor of `GUN_PATH`
+- Standard error used for warnings and errors
+- Static compilation of binary
+- `version` builtin command is now `:version`
+- `help` builtin command is now `:help`
+- `update` builtin command is now `:update`
+- `env` builtin command is now `:env`
+- `fn` builtin command is now `::`
 
 ## [0.0.7] - 2015-02-20
 ### Added
@@ -70,7 +96,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - Fixed profiles not loading
 
-[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.0.7...HEAD
+[unreleased]: https://github.com/gliderlabs/glidergun/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/gliderlabs/glidergun/compare/v0.0.7...v0.1.0
 [0.0.7]: https://github.com/gliderlabs/glidergun/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/gliderlabs/glidergun/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/gliderlabs/glidergun/compare/v0.0.4...v0.0.5

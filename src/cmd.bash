@@ -45,7 +45,7 @@ cmd-ns() {
 	local ns="$1"; shift
 	local cmd="$1"; shift || true
 	local status=0
-	if cmd-list "$ns" | grep ^$cmd\$ &> /dev/null; then
+	if [[ "${CMDS["$ns:$cmd"]+exists}" ]]; then
 		${CMDS["$ns:$cmd"]} "$@"
 	else
 		if [[ "$cmd" ]]; then
@@ -54,17 +54,28 @@ cmd-ns() {
 		elif [[ "$ns" ]]; then
 			echo "$(fn-desc "$ns")"
 		fi
-		echo
-		echo "Available commands:"
-		for cmd in $(cmd-list "$ns"); do
-			printf "  %-24s %s\n" "$cmd" "$(fn-desc "${CMDS["$ns:$cmd"]}")"
-			#for subcmd in $(cmd-list "$cmd"); do
-			#	printf "    %-24s %s\n" "$subcmd" "$(fn-desc "${CMDS["$cmd:$subcmd"]}")"
-			#done
-		done
-		echo
+		cmd-available "$ns"
 		exit $status
 	fi
+}
+
+cmd-available() {
+	declare ns="$1" full="$2"
+	echo
+	echo "Available commands:"
+	for cmd in $(cmd-list "$ns" | grep -v '^:'); do
+		printf "  %-24s %s\n" "$cmd" "$(fn-desc "${CMDS["$ns:$cmd"]}")"
+		if [[ "$full" ]]; then
+			for subcmd in $(cmd-list "$cmd"); do
+				printf "    %-24s %s\n" "$subcmd" "$(fn-desc "${CMDS["$cmd:$subcmd"]}")"
+			done
+		fi
+	done
+	echo
+	for specialcmd in $(cmd-list "$ns" | grep '^:'); do
+		printf "  %-24s %s\n" "$specialcmd" "$(fn-desc "${CMDS["$ns:$specialcmd"]}")"
+	done
+	echo
 }
 
 cmd-help() {
@@ -76,6 +87,6 @@ cmd-help() {
     	local fn="${CMDS["$ns:$cmd"]}"
     	fn-info "$fn" 1
 	else
-		cmd-ns ""
+		cmd-available "" 1
 	fi
 }
