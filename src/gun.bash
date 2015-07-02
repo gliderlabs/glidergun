@@ -41,16 +41,24 @@ gun-update() {
 gun-find-root() {
 	local path="$PWD"
 	while [[ "$path" != "" && ! -f "$path/Gunfile" ]]; do
-    path="${path%/*}"
-  done
+		path="${path%/*}"
+	done
 	if [[ -f "$path/Gunfile" ]]; then
-  	GUN_ROOT="$path"
-  fi
+		GUN_ROOT="$path"
+	fi
 
-  if [[ -d "$GUN_ROOT" ]]; then
-  	cd $GUN_ROOT
+	if [[ -d "$GUN_ROOT" ]]; then
+		cd $GUN_ROOT
 		mkdir -p $GUN_DIR
-  fi
+	fi
+}
+
+gun-reload-path() {
+	local gun_module_paths
+	IFS=':' read -ra gun_module_paths <<< "$GUN_PATH"
+	for path in "${gun_module_paths[@]}"; do
+		module-load-dir "$path"
+	done
 }
 
 main() {
@@ -71,11 +79,7 @@ main() {
 			GUN_PROFILE="$GUN_DEFAULT_PROFILE"
 		fi
 		module-load-remote
-		local gun_module_paths
-		IFS=':' read -ra gun_module_paths <<< "$GUN_PATH"
-		for path in "${gun_module_paths[@]}"; do
-			module-load-dir "$path"
-		done
+		gun-reload-path
 		cmd-export env-show :env
 		cmd-export fn-call ::
 	else
