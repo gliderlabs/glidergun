@@ -12,3 +12,5 @@
 ## Upgrading
 
 	$ gun :update
+
+<img src="https://ga-beacon.appspot.com/UA-58928488-2/glidergun/readme?pixel" />
