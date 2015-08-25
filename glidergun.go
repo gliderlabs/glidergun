@@ -15,8 +15,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/inconshreveable/go-update"
 	"github.com/progrium/go-basher"
+	"gopkg.in/inconshreveable/go-update.v0"
 )
 
 const (
