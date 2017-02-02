@@ -27,6 +27,7 @@ See example glidergun application [here](https://github.com/lalyos/glidergun-tes
 * dependency management (`deps-require jq 1.4` e.g.)
 * module system
 * support for exposing bash functions as subcommands
+* easy way to extend tool with subcommands and autocompletion
 
 ## Upgrading
 
