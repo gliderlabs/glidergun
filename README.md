@@ -13,7 +13,7 @@ glidergun allows writing write-once-run-anywhere cli tools using  [Go](https://g
 
 # How it works 
 
-Glidergun acts as a framework runtime using its `gun` (/usr/local/bin/gun).
+Glidergun acts as a framework runtime using its `gun`-command (`/usr/local/bin/gun`).
 Cli-tools typically consist of :
 
     mytool/Gunfile             # specify environment variables here
