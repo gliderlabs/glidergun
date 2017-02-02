@@ -3,7 +3,7 @@
 [![CircleCI](https://img.shields.io/circleci/project/gliderlabs/glidergun/release.svg)](https://circleci.com/gh/gliderlabs/glidergun)
 [![IRC Channel](https://img.shields.io/badge/irc-%23gliderlabs-blue.svg)](https://kiwiirc.com/client/irc.freenode.net/#gliderlabs)
 
-glidergun allows writing write-once-run-anywhere cli tools using  [Go](https://golang.org) and Bash(http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html).
+glidergun allows writing write-once-run-anywhere cli tools using  [Go](https://golang.org) and [Bash](http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO.html).
 
 # Install
 
