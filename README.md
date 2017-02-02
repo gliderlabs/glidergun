@@ -16,14 +16,14 @@ glidergun allows writing write-once-run-anywhere cli tools using  [Go](https://g
 Glidergun acts as a framework runtime using its `gun` (/usr/local/bin/gun).
 Cli-tools typically consist of :
 
-   mytool/Gunfile             # specify environment variables here
-   mytool/cmds                # folder with scripts
+    mytool/Gunfile             # specify environment variables here
+    mytool/cmds                # folder with scripts
    
-See example glidergun application [here](https://github.com/lalyos/glidergun-test))
+See example glidergun application [here](https://github.com/lalyos/glidergun-test)
 
 # Features:
 
-* intermixing Go & Bash language using [go-basher](https://github.com/progrium/go-basher). 
+* intermixing of Go & Bash language using [go-basher](https://github.com/progrium/go-basher). 
 * dependency management (`deps-require jq 1.4` e.g.)
 * module system
 * support for exposing bash functions as subcommands
