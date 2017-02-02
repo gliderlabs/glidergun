@@ -19,7 +19,7 @@ Cli-tools typically consist of :
     mytool/Gunfile             # specify environment variables here
     mytool/cmds                # folder with scripts
    
-See example glidergun application [here](https://github.com/lalyos/glidergun-test)
+Check [here](https://github.com/lalyos/gun-github) for an example glidergun application.
 
 # Features:
 
