@@ -33,7 +33,7 @@ deps-install() {
 	IFS=' ' read v t url checksum <<< "$dep"
 	tmpdir="$gundir/tmp"
 	mkdir -p "$tmpdir"
-	tmpfile="${tmpdir:?}/$name"
+	tmpfile="${tmpdir:?}/$name.tmp"
 	curl -Ls $url > "$tmpfile"
 	if [[ "$checksum" ]]; then
 		if ! [[ "$(cat "$tmpfile" | checksum md5)" = "$checksum" ]]; then
@@ -56,7 +56,7 @@ deps-install() {
 		unset PREFIX
 	else
 		chmod +x "$tmpfile"
-		mv "$tmpfile" "$bindir"
+		mv "$tmpfile" "$bindir/$name"
 	fi
 	cd - > /dev/null
 	rm -rf "${tmpdir:?}"
