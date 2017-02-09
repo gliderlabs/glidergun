@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 ### Added
+- `:complete` builtin generates bash autocomplete function: `eval "$(gun :complete)"`
 
 ### Removed
 
