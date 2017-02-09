@@ -7,6 +7,20 @@ module-load() {
 	if grep '^init()' "$filename" > /dev/null; then
 		init
 	fi
+
+    module-auto-export $filename
+}
+
+module-auto-export() {
+    declare filename="$1"
+    
+    local autoprefix="cmd:"
+    while read cmd; do
+        cmd-export "cmd:$cmd" "$cmd"
+    done < <(
+        sed -n "s/^cmd:\([^(]*\)(.*/\1/p"  "$filename"
+    )
+
 }
 
 module-load-dir() {
