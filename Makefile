@@ -7,11 +7,11 @@ VERSION=0.1.0
 build: src
 	mkdir -p build/Linux && GOOS=linux CGO_ENABLED=0 go build -a \
 		-installsuffix cgo \
-		-ldflags "-X main.Version $(VERSION)" \
+		-ldflags "-X main.Version=$(VERSION)" \
 		-o build/Linux/$(BINARYNAME)
 	mkdir -p build/Darwin && GOOS=darwin CGO_ENABLED=0 go build -a \
 		-installsuffix cgo \
-		-ldflags "-X main.Version $(VERSION)" \
+		-ldflags "-X main.Version=$(VERSION)" \
 		-o build/Darwin/$(BINARYNAME)
 
 test: src
