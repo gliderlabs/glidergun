@@ -6,7 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 ### Added
+
 - Auto-export for module functions starting with `cmd:`
+- `:complete` builtin generates bash autocomplete function: `eval "$(gun :complete)"`
 
 ### Removed
 
