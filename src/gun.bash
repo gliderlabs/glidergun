@@ -87,6 +87,7 @@ main() {
 	fi
 
 	cmd-export cmd-help :help
+	cmd-export cmd-bash-complete :complete
 	cmd-export module-get :get
 	cmd-export gun-version :version
 	cmd-export gun-update :update

@@ -90,3 +90,25 @@ cmd-help() {
 		cmd-available "" 1
 	fi
 }
+
+cmd-bash-complete-ns() {
+	for n in $(cmd-list-ns); do
+		echo "  $n) COMPREPLY=(\$(compgen -W '$(cmd-list $n | xargs)' -- \$act)) ;;"
+		done
+}
+
+cmd-bash-complete() {
+	 declare desc='Generates bash autocomplete function: eval "$(gun :complete)"'
+
+	 cat << EOF
+_${SELF}_comp() {
+  local act=\${COMP_WORDS[\$COMP_CWORD]}
+  case \$COMP_CWORD in
+    1) COMPREPLY=(\$(compgen -W "$(cmd-list | xargs)" -- \$act )) ;;
+    2) case \${COMP_WORDS[1]}  in
+$(cmd-bash-complete-ns)
+       esac
+    esac
+}; complete -F _${SELF}_comp $SELF
+EOF
+}
