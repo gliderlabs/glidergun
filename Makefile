@@ -37,13 +37,6 @@ release:
 	gh-release checksums sha256
 	gh-release create $(OWNER)/$(NAME) $(VERSION) $(shell git rev-parse --abbrev-ref HEAD) v$(VERSION)
 
-circleci:
-	rm ~/.gitconfig
-	rm -rf /home/ubuntu/.go_workspace/src/github.com/$(OWNER)/$(NAME) && cd .. \
-		&& mkdir -p /home/ubuntu/.go_workspace/src/github.com/$(OWNER) \
-		&& mv $(NAME) /home/ubuntu/.go_workspace/src/github.com/$(OWNER)/$(NAME) \
-		&& ln -s /home/ubuntu/.go_workspace/src/github.com/$(OWNER)/$(NAME) $(NAME)
-
 clean:
 	rm -rf build release
 

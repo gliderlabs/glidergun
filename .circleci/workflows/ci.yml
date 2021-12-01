@@ -1,0 +1,34 @@
+---
+name: ci
+
+on:
+  pull_request:
+    branches:
+      - '*'
+  push:
+    branches:
+      - 'master'
+      - 'release'
+
+jobs:
+  ci:
+    name: ci
+    runs-on: ubuntu-18.04
+    strategy:
+      fail-fast: true
+    steps:
+    - uses: actions/checkout@v2
+    - run: make deps build
+    - run: make test
+    - run: mkdir -p build/workspace/
+    - run: tar -czvf build/workspace/go-workspace.tgz -C ~/.go_workspace .
+    - name: upload packages
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build/**/*
+    - name: make release-in-docker
+      run: |
+        if [[ "${GITHUB_REF#refs/heads/}" == "release" ]]; then
+          make deps build release
+        fi
