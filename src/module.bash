@@ -13,7 +13,7 @@ module-load() {
 
 module-auto-export() {
     declare filename="$1"
-    
+
     local autoprefix="cmd:"
     while read cmd; do
         cmd-export "cmd:$cmd" "$cmd"
