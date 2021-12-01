@@ -25,7 +25,7 @@ src:
 install: build
 	install build/$(shell uname -s)/gun /usr/local/bin
 
-deps gh-release:
+deps: gh-release
 	cd / && go get -u github.com/jteeuwen/go-bindata/...
 	cd / && go get -u github.com/progrium/basht/...
 
