@@ -1,0 +1,53 @@
+---
+version: 2.1
+
+jobs:
+  test:
+    docker:
+      - image: circleci/golang:1.12
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Prepare environment
+          command: make deps build
+      - run:
+          name: Run unit tests
+          command: make test
+      - run:
+          name: Prepare artifacts
+          command: |
+            mkdir -p build/workspace/
+            tar -czvf build/workspace/go-workspace.tgz -C ~/.go_workspace .
+      - save_cache:
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - store_artifacts:
+          path: build
+          destination: build
+
+  release:
+    docker:
+      - image: circleci/golang:1.12
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}
+      - run:
+          name: Release
+          command: |
+            echo "make deps build release"
+
+workflows:
+  build:
+    jobs:
+      - test
+      - release:
+          filters:
+            branches:
+              only:
+                - release
