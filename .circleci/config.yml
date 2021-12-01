@@ -32,10 +32,6 @@ jobs:
   release:
     docker:
       - image: circleci/golang:1.12
-    filters:
-      branches:
-        only:
-          - release
     steps:
       - checkout
       - restore_cache:
@@ -47,7 +43,11 @@ jobs:
             echo "make circleci deps build release"
 
 workflows:
-  build-workflow:
+  build:
     jobs:
-      - build
-      - release
+      - test
+      - release:
+          filters:
+            branches:
+              only:
+                - release
