@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - `:complete` builtin generates bash autocomplete function: `eval "$(gun :complete)"`
 
+- Auto-export for module functions starting with `cmd:`
+- `:complete` builtin generates bash autocomplete function: `eval "$(gun :complete)"`
+
 ### Removed
 
 ### Changed
